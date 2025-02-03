@@ -10,10 +10,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.Collection;
 
 public interface BookRepository extends JpaRepository <Book, String> {
-//    Collection<Book> findBooksByAuthor_Name(String authorName);
-
-//    Collection<Book> findBooksByPublisher_Name(String publisher);
-
     @Query("SELECT DISTINCT b.publisher FROM Book b JOIN b.authors a WHERE a.name = :authorName")
     Collection<Publisher> findPublishersByAuthor(@Param("authorName") String authorName);
+
 }

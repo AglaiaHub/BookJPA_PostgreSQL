@@ -77,13 +77,10 @@ public class BookServiceImpl implements BookService{
 
     @Override
     public Iterable<BookDto> findBooksByAuthor(String authorName) {
-//        Author author = authorRepository.findById(authorName).orElseThrow(EntityNotFoundException::new);
-
-//        return bookRepository.findBooksByAuthor_Name(authorName)
-//                .stream()
-//                .map(b -> modelMapper.map(b, BookDto.class))
-//                .collect(Collectors.toList());
-        return null;
+        return authorRepository.findBooksByAuthorName(authorName)
+                .stream()
+                .map(b -> modelMapper.map(b, BookDto.class))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -97,8 +94,8 @@ public class BookServiceImpl implements BookService{
 
     @Override
     public Iterable<AuthorDto> findBookAuthorsByIsbn(String isbn) {
-        return authorRepository.findAuthorsByIsbn(isbn)
-                .stream()
+        Book book = bookRepository.findById(isbn).orElseThrow(EntityNotFoundException::new);
+        return book.getAuthors().stream()
                 .map(a -> modelMapper.map(a, AuthorDto.class))
                 .collect(Collectors.toList());
     }
