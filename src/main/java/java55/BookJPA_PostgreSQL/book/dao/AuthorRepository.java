@@ -14,6 +14,4 @@ public interface AuthorRepository extends JpaRepository <Author, String> {
     @Query("SELECT b FROM Book b JOIN b.authors a WHERE a.name = :authorName")
     Collection<Book> findBooksByAuthorName(@Param("authorName") String authorName);
 
-//    @Query("SELECT DISTINCT p FROM Publisher p JOIN p.books b JOIN b.authors a WHERE a.name = :authorName")
-//    Collection<Publisher> findPublishersByAuthor(@Param("authorName") String authorName);
 }

@@ -15,6 +15,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -26,6 +27,7 @@ public class BookServiceImpl implements BookService{
     final PublisherRepository publisherRepository;
     final ModelMapper modelMapper;
 
+    @Transactional
     @Override
     public Boolean addBook(BookDto bookDto) {
         if (bookRepository.existsById(bookDto.getIsbn())){
@@ -60,13 +62,16 @@ public class BookServiceImpl implements BookService{
         return modelMapper.map(book, BookDto.class);
     }
 
+    @Transactional
     @Override
     public AuthorDto removeAuthorByName(String authorName) {
         Author author = authorRepository.findById(authorName).orElseThrow(EntityNotFoundException::new);
-        authorRepository.delete(author);
+        bookRepository.deleteByAuthorsName(authorName);
+        authorRepository.deleteById(authorName);
         return modelMapper.map(author, AuthorDto.class);
     }
 
+    @Transactional
     @Override
     public BookDto updateBookTitle(String isbn, String title) {
         Book book = bookRepository.findById(isbn).orElseThrow(EntityNotFoundException::new);
@@ -85,7 +90,7 @@ public class BookServiceImpl implements BookService{
 
     @Override
     public Iterable<BookDto> findBooksByPublisher(String publisher) {
-//        return bookRepository.findBooksByPublisher_Name(publisher)
+//        return publisherRepository.findBooksByPublisher(publisher)
 //                .stream()
 //                .map(b -> modelMapper.map(b, BookDto.class))
 //                .collect(Collectors.toList());
