@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.Collection;
 
 public interface PublisherRepository extends JpaRepository <Publisher, String> {
+    @Query("select distinct p.publisherName from Book b join b.publisher p join b.authors a where a.name=?1")
+    Iterable<String> findPublishersByAuthor(String authorName);
 
-    @Query("SELECT b FROM Book b WHERE b.publisher.name = :publisherName")
-    Collection<Book> findBooksByPublisher(@Param("publisherName") String publisherName);
 }

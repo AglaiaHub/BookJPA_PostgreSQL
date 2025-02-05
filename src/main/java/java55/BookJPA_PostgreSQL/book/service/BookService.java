@@ -2,7 +2,6 @@ package java55.BookJPA_PostgreSQL.book.service;
 
 import java55.BookJPA_PostgreSQL.book.dto.AuthorDto;
 import java55.BookJPA_PostgreSQL.book.dto.BookDto;
-import java55.BookJPA_PostgreSQL.book.dto.PublisherDto;
 
 public interface BookService {
     Boolean addBook(BookDto bookDto);
@@ -21,5 +20,5 @@ public interface BookService {
 
     Iterable<AuthorDto> findBookAuthorsByIsbn(String isbn);
 
-    Iterable<PublisherDto> findPublishersByAuthor(String author);
+    Iterable<String> findPublishersByAuthor(String author);
 }

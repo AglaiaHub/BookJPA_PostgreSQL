@@ -8,10 +8,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.Collection;
+import java.util.Optional;
 
-public interface AuthorRepository extends JpaRepository <Author, String> {
+public interface AuthorRepository extends JpaRepository<Author, String>{
 
-    @Query("SELECT b FROM Book b JOIN b.authors a WHERE a.name = :authorName")
-    Collection<Book> findBooksByAuthorName(@Param("authorName") String authorName);
+//    Author save(Author author);
+//
+//    Optional<Author> findById(String name);
+//
+//    @Query("SELECT b FROM Book b JOIN b.authors a WHERE a.name = :authorName")
+//    Collection<Book> findBooksByAuthorName(@Param("authorName") String authorName);
 
 }

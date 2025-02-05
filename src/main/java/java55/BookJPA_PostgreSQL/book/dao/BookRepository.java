@@ -8,10 +8,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.Collection;
+import java.util.List;
 
 public interface BookRepository extends JpaRepository <Book, String> {
-    @Query("SELECT DISTINCT b.publisher FROM Book b JOIN b.authors a WHERE a.name = :authorName")
-    Collection<Publisher> findPublishersByAuthor(@Param("authorName") String authorName);
+
+    List<Book> findByAuthorsName(String name);
+
+    List<Book> findByPublisherPublisherName(String publisher);
 
     void deleteByAuthorsName(String authorName);
 }

@@ -6,7 +6,6 @@ import java55.BookJPA_PostgreSQL.book.dao.BookRepository;
 import java55.BookJPA_PostgreSQL.book.dao.PublisherRepository;
 import java55.BookJPA_PostgreSQL.book.dto.AuthorDto;
 import java55.BookJPA_PostgreSQL.book.dto.BookDto;
-import java55.BookJPA_PostgreSQL.book.dto.PublisherDto;
 import java55.BookJPA_PostgreSQL.book.model.Author;
 import java55.BookJPA_PostgreSQL.book.model.Book;
 import java55.BookJPA_PostgreSQL.book.model.Publisher;
@@ -15,7 +14,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -76,26 +74,28 @@ public class BookServiceImpl implements BookService{
     public BookDto updateBookTitle(String isbn, String title) {
         Book book = bookRepository.findById(isbn).orElseThrow(EntityNotFoundException::new);
         book.setTitle(title);
-        bookRepository.save(book);
         return modelMapper.map(book, BookDto.class);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Iterable<BookDto> findBooksByAuthor(String authorName) {
-        return authorRepository.findBooksByAuthorName(authorName)
+        return bookRepository.findByAuthorsName(authorName)
                 .stream()
                 .map(b -> modelMapper.map(b, BookDto.class))
-                .collect(Collectors.toList());
+                .toList();
     }
 
+
+    @Transactional(readOnly = true)
     @Override
     public Iterable<BookDto> findBooksByPublisher(String publisher) {
-//        return publisherRepository.findBooksByPublisher(publisher)
-//                .stream()
-//                .map(b -> modelMapper.map(b, BookDto.class))
-//                .collect(Collectors.toList());
-        return null;
+        return bookRepository.findByPublisherPublisherName(publisher)
+                .stream()
+                .map(b -> modelMapper.map(b, BookDto.class))
+                .toList();
     }
+
 
     @Override
     public Iterable<AuthorDto> findBookAuthorsByIsbn(String isbn) {
@@ -106,10 +106,10 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
-    public Iterable<PublisherDto> findPublishersByAuthor(String authorName) {
-        return bookRepository.findPublishersByAuthor(authorName)
-                .stream()
-                .map(p -> modelMapper.map(p, PublisherDto.class))
-                .collect(Collectors.toList());
+    public Iterable<String> findPublishersByAuthor(String authorName) {
+        return publisherRepository.findPublishersByAuthor(authorName);
     }
+
+
+
 }
