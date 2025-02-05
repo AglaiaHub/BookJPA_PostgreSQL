@@ -56,7 +56,7 @@ public class BookServiceImpl implements BookService{
     @Override
     public BookDto removeBookByIsbn(String isbn) {
         Book book = bookRepository.findById(isbn).orElseThrow(EntityNotFoundException::new);
-        bookRepository.delete(book);
+        bookRepository.deleteById(isbn);
         return modelMapper.map(book, BookDto.class);
     }
 
@@ -64,7 +64,7 @@ public class BookServiceImpl implements BookService{
     @Override
     public AuthorDto removeAuthorByName(String authorName) {
         Author author = authorRepository.findById(authorName).orElseThrow(EntityNotFoundException::new);
-        bookRepository.deleteByAuthorsName(authorName);
+        bookRepository.deleteByAuthorName(authorName);
         authorRepository.deleteById(authorName);
         return modelMapper.map(author, AuthorDto.class);
     }
@@ -90,7 +90,7 @@ public class BookServiceImpl implements BookService{
     @Transactional(readOnly = true)
     @Override
     public Iterable<BookDto> findBooksByPublisher(String publisher) {
-        return bookRepository.findByPublisherPublisherName(publisher)
+        return bookRepository.findByPublisherName(publisher)
                 .stream()
                 .map(b -> modelMapper.map(b, BookDto.class))
                 .toList();

@@ -1,20 +1,25 @@
 package java55.BookJPA_PostgreSQL.book.dao;
 
-import java55.BookJPA_PostgreSQL.book.model.Author;
 import java55.BookJPA_PostgreSQL.book.model.Book;
-import java55.BookJPA_PostgreSQL.book.model.Publisher;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
-import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
-public interface BookRepository extends JpaRepository <Book, String> {
+public interface BookRepository {
+
+
 
     List<Book> findByAuthorsName(String name);
 
-    List<Book> findByPublisherPublisherName(String publisher);
+    List<Book> findByPublisherName(String publisher);
 
-    void deleteByAuthorsName(String authorName);
+    void deleteByAuthorName(String authorName);
+
+    Book save(Book book);
+
+    Optional<Book> findById(String isbn);
+
+    boolean existsById(String isbn);
+
+    void deleteById(String isbn);
 }

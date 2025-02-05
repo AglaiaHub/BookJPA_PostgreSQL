@@ -10,7 +10,13 @@ import org.springframework.data.repository.query.Param;
 import java.util.Collection;
 import java.util.Optional;
 
-public interface AuthorRepository extends JpaRepository<Author, String>{
+public interface AuthorRepository {
+    Author save(Author author);
+
+    Optional<Author> findById(String name);
+
+    void deleteById(String authorName);
+
 
 //    Author save(Author author);
 //

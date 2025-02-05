@@ -15,7 +15,13 @@ public class Book {
     @Id
     String isbn;
     String title;
+
     @ManyToMany
+    @JoinTable(
+            name = "book_authors",
+            joinColumns = @JoinColumn(name = "book_isbn"),
+            inverseJoinColumns = @JoinColumn (name = "authors_name")
+    )
     Set<Author> authors;
     @ManyToOne
     Publisher publisher;
