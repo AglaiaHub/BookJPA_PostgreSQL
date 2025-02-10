@@ -55,6 +55,6 @@ public class BookRepositoryImpl implements BookRepository{
 
     @Override
     public void deleteById(String isbn) {
-        entityManager.remove(isbn);
+        entityManager.remove(entityManager.find(Book.class, isbn));
     }
 }

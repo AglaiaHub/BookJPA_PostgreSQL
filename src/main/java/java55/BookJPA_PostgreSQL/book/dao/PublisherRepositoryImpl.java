@@ -3,6 +3,7 @@ package java55.BookJPA_PostgreSQL.book.dao;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import java55.BookJPA_PostgreSQL.book.model.Author;
 import java55.BookJPA_PostgreSQL.book.model.Book;
 import java55.BookJPA_PostgreSQL.book.model.Publisher;
@@ -21,6 +22,10 @@ public class PublisherRepositoryImpl implements PublisherRepository{
                         "SELECT p.publisherName FROM Publisher p JOIN p.books b JOIN b.authors a WHERE a.name = :authorName", String.class)
                 .setParameter("authorName", authorName)
                 .getResultList();
+//        TypedQuery<String> query = em.createQuery("select distinct p.publisherName from Book b" +
+//                " join b.publisher p join b.author a where a.name=:authorName", String.class);
+//        query.setParameter("authorName", authorName);
+//        return query.getResultList();
     }
 
     @Override
